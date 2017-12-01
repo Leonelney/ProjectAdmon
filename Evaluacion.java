@@ -3,6 +3,7 @@ package Sources;
 //clase para realizar la operaciones de un año en especifico.
 public class Evaluaciones {
     int uniVendidas = 20000;      //unidades estimadas a vender(iniciales)
+    int uniVendidasA;           // unidades vendidas con aumento por año
     double porRed;              //
     int año;                    //año del analisis
     double ventasPre;           //ventas previstas
@@ -19,8 +20,14 @@ public class Evaluaciones {
     double impuestos;           //impuestos
     double ventasNetas;         //Ventas despues de iva
 
+    public int obtenerUnidadesVen(int año){
+    //calcula las unidades que se venden dependiendo del año
+        uniVendidasA = uniVendidas*Math.pow(1+.05,año-2017);
+        return unidadesVendidasA;
+    }
     public double obtenerVentasNetas(int año) {
         //calcula las ventas previstas
+        uniVendidas=obtenerUnidadesVen();//ajustando las unidades vendidas respectivas al año
         ventasPre = (uniVendidas * precio) * Math.pow( 1 + 0.05 , año-2017 );
         ventasNetas = ventasPre - (ventasPre / (1 + iva)) * iva;
         return ventasNetas;
@@ -28,13 +35,19 @@ public class Evaluaciones {
 
     public double obtenerCostosProd(int año) {
         //calcula los costos de produccion
+        uniVendidas=obtenerUnidadesVen();//ajustando las unidades vendidas respectivas al año
         costosProd = ((((120 + 80 + 50 + 50) * uniVendidas) + 150000) * Math.pow( 1 + 0.08 , año-2017 )) + 100000 + 200000;
         return costosProd;
     }
 
     public double obtenerDepreciacion(int año) {
         //se calcula la depreciacion
-        depreciacion = (500000 / 30) + ((1000000 - 100000) / 5);
+        depreciacion = (500000 / 30)*(año-2016);
+        
+       if(año-2016<=5){
+       depreciacion= depreciacion+(180000*(año-2016));
+       }else
+       depreciacion = depreciacion+(900000)+(180000*(año-2016-5));
         return depreciacion;
     }
 
@@ -45,6 +58,7 @@ public class Evaluaciones {
     }
 
     public double obtenerGastosAdmon(int año) {
+        uniVendidas=obtenerUnidadesVen();//ajustando las unidades vendidas respectivas al año
         //calculo de los gastos de administracion
         gastosAdmon = (100 * uniVendidas) * Math.pow( 1 + 0.05 , año-2017 );
         return gastosAdmon;
@@ -52,6 +66,7 @@ public class Evaluaciones {
 
     public double obtenerGastosVentas(int año) {
         //calculo de los gastos de ventas
+        uniVendidas=obtenerUnidadesVen();//ajustando las unidades vendidas respectivas al año
         gastosVentas = (200 * uniVendidas) * Math.pow( 1 + 0.05 , año-2017 );
         return gastosVentas;
     }
