@@ -2,7 +2,7 @@ package Sources;
 
 //clase para realizar la operaciones de un año en especifico.
 public class Evaluaciones {
-    int uniVendidas=20000;      //unidades estimadas a vender
+    int uniVendidas=20000;      //unidades estimadas a vender(iniciales)
     double porRed;              //
     int año;                    //año del analisis
     double ventasPre;           //ventas previstas
@@ -17,23 +17,41 @@ public class Evaluaciones {
     double gastosVentas;        //gastos de ventas
     double utilidadOper;        //utilidad de operacion
     double impuestos;           //impuestos
-
+    double ventasNetas;         //Ventas despues de iva
     //constructor que recibe unicamente el año a analizar
     public Evaluaciones(int año) {
         this.año=año;
     }
     
-    //metodo que calcula el valor de la utilidad del ejercicio en el año en especifico.
-    public double ObtenerUtilidad(){
-        //calcula las ventas previstas
+    public double obtenerVentasNetas(){
+   //calcula las ventas previstas
         ventasPre=uniVendidas*precio;
-        ventasPre=ventasPre-(ventasPre/(1+iva))*iva;
-        //calcula los costos de produccion
+        ventasNetas=ventasPre-(ventasPre/(1+iva))*iva;
+        return ventasNetas;
+    }
+    
+    public double obtenerCostosProd(){
+    //calcula los costos de produccion
         costosProd=((120+80+50+50)*uniVendidas)+150000+100000+200000;
-        //se calcula la depreciacion
-        depreciacion=(500000/30)+((1000000-100000)/5);
-        //se calcula la utilidad bruta restandole a las ventas prevista los costos de produccion y la depreciacion
-        utilidadbruta=ventasPre-costosProd-depreciacion;
+        return costosProd;
+    }
+    
+    public double obtenerDepreciacion(){
+     //se calcula la depreciacion
+     depreciacion=(500000/30)+((1000000-100000)/5);
+       return depreciacion;
+    }
+    
+    public double obtenerUtilidadBruta(){
+      //se calcula la utilidad bruta restandole a las ventas prevista los costos de produccion y la depreciacion
+      utilidadbruta= obtenerVentasNetas()-obtenerCostosProd()-obtenerDepreciacion();
+      return utilidadbruta;
+    }
+    
+    //metodo que calcula el valor de la utilidad del ejercicio en el año en especifico.
+    public double obtenerUtilidad(){
+     
+      
         //calculo de los gastos de administracion y de ventas
         gastosAdmon=(100*uniVendidas);
         gastosVentas=(200*uniVendidas);
