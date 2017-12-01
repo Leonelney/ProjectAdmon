@@ -19,38 +19,38 @@ public class Evaluaciones {
     double impuestos;           //impuestos
     double ventasNetas;         //Ventas despues de iva
 
-    public double obtenerVentasNetas() {
+    public double obtenerVentasNetas(int año) {
         //calcula las ventas previstas
         ventasPre = (uniVendidas * precio) * Math.pow( 1 + 0.05 , año-2017 );
         ventasNetas = ventasPre - (ventasPre / (1 + iva)) * iva;
         return ventasNetas;
     }
 
-    public double obtenerCostosProd() {
+    public double obtenerCostosProd(int año) {
         //calcula los costos de produccion
         costosProd = ((((120 + 80 + 50 + 50) * uniVendidas) + 150000) * Math.pow( 1 + 0.08 , año-2017 )) + 100000 + 200000;
         return costosProd;
     }
 
-    public double obtenerDepreciacion() {
+    public double obtenerDepreciacion(int año) {
         //se calcula la depreciacion
         depreciacion = (500000 / 30) + ((1000000 - 100000) / 5);
         return depreciacion;
     }
 
-    public double obtenerUtilidadBruta() {
+    public double obtenerUtilidadBruta(int año) {
         //se calcula la utilidad bruta restandole a las ventas prevista los costos de produccion y la depreciacion
         utilidadbruta = obtenerVentasNetas() - obtenerCostosProd() - obtenerDepreciacion();
         return utilidadbruta;
     }
 
-    public double obtenerGastosAdmon() {
+    public double obtenerGastosAdmon(int año) {
         //calculo de los gastos de administracion
         gastosAdmon = (100 * uniVendidas) * Math.pow( 1 + 0.05 , año-2017 );
         return gastosAdmon;
     }
 
-    public double obtenerGastosVentas() {
+    public double obtenerGastosVentas(int año) {
         //calculo de los gastos de ventas
         gastosVentas = (200 * uniVendidas) * Math.pow( 1 + 0.05 , año-2017 );
         return gastosVentas;
