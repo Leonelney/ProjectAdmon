@@ -5,7 +5,6 @@ public class Evaluaciones {
     int uniVendidas = 20000;      //unidades estimadas a vender(iniciales)
     int uniVendidasA;           // unidades vendidas con aumento por año
     double porRed;              //
-    int año;                    //año del analisis
     double ventasPre;           //ventas previstas
     double iva = 0.16;            //valor del iva
     double precio = 800;          //precio por unidad del producto
