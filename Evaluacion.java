@@ -12,6 +12,7 @@ public class Evaluaciones {
     double utilidad;            //utilidad del ejercicio
     double utilidadbruta;       //utilidad bruta
     double costosProd;          //costos de producción
+    double subcontatacion = 0;      //Subcontratacion.
     double depreciacion;        //depreciacion 
     double gastosAdmon;         //gastos de administracion
     double gastosVentas;        //gastos de ventas
@@ -35,8 +36,16 @@ public class Evaluaciones {
     public double obtenerCostosProd(int año) {
         //calcula los costos de produccion
         uniVendidas = obtenerUnidadesVen(año);//ajustando las unidades vendidas respectivas al año
-        costosProd = ((((120 + 80 + 50 + 50) * uniVendidas) + 150000) * Math.pow( 1 + 0.08 , año-2017 )) + 100000 + 200000;
+        costosProd = ((((120 + 80 + 50 + 50) * uniVendidas) + 150000) * Math.pow( 1 + 0.08 , año-2017 ));
         return costosProd;
+    }
+    
+    public double obtenerSubcontra(int año){
+        if(obtenerUnidadesVen(año)>25000){
+            subcontatacion=(obtenerUnidadesVen(año)-25000)*400;
+        }
+        return subcontatacion;
+        
     }
 
     public double obtenerDepreciacion(int año) {
@@ -82,17 +91,17 @@ public class Evaluaciones {
         if (utilidadOper > 0 && utilidadOper <= 999) {
             impuestos = utilidadOper * 0.05;
         } else if (utilidadOper > 999 && utilidadOper <= 9999) {
-            impuestos = (utilidadOper * 0.1) + 50;
+            impuestos = (utilidadOper * 0.1);
         } else if (utilidadOper > 9999 && utilidadOper <= 49999) {
-            impuestos = (utilidadOper * 0.15) + 950;
+            impuestos = (utilidadOper * 0.15);
         } else if (utilidadOper > 49999 && utilidadOper <= 99000) {
-            impuestos = (utilidadOper * 0.2) + 6950;
+            impuestos = (utilidadOper * 0.2);
         } else if (utilidadOper > 99000 && utilidadOper <= 499000) {
-            impuestos = (utilidadOper * 0.25) + 16950;
+            impuestos = (utilidadOper * 0.25);
         } else if (utilidadOper > 499000 && utilidadOper <= 999999) {
-            impuestos = (utilidadOper * 0.3) + 116949;
+            impuestos = (utilidadOper * 0.3);
         } else if (utilidadOper >= 1000000) {
-            impuestos = (utilidadOper * 0.35) + 266949;
+            impuestos = (utilidadOper * 0.35);
         }
         return impuestos;
     }
