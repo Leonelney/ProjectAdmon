@@ -21,14 +21,14 @@ public class Evaluaciones {
 
     public double obtenerVentasNetas() {
         //calcula las ventas previstas
-        ventasPre = uniVendidas * precio;
+        ventasPre = (uniVendidas * precio) * Math.pow( 1 + 0.05 , año-2017 );
         ventasNetas = ventasPre - (ventasPre / (1 + iva)) * iva;
         return ventasNetas;
     }
 
     public double obtenerCostosProd() {
         //calcula los costos de produccion
-        costosProd = ((120 + 80 + 50 + 50) * uniVendidas) + 150000 + 100000 + 200000;
+        costosProd = ((((120 + 80 + 50 + 50) * uniVendidas) + 150000) * Math.pow( 1 + 0.08 , año-2017 )) + 100000 + 200000;
         return costosProd;
     }
 
@@ -46,13 +46,13 @@ public class Evaluaciones {
 
     public double obtenerGastosAdmon() {
         //calculo de los gastos de administracion
-        gastosAdmon = (100 * uniVendidas);
+        gastosAdmon = (100 * uniVendidas) * Math.pow( 1 + 0.05 , año-2017 );
         return gastosAdmon;
     }
 
     public double obtenerGastosVentas() {
         //calculo de los gastos de ventas
-        gastosVentas = (200 * uniVendidas);
+        gastosVentas = (200 * uniVendidas) * Math.pow( 1 + 0.05 , año-2017 );
         return gastosVentas;
     }
 
