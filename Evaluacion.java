@@ -112,4 +112,41 @@ public class Evaluaciones {
         utilidad = obtenerUtilidadOper(año) - obtenerImpuestos(año);
         return utilidad;
     }
+    
+    //Metodos de proyecto
+    //Metodos de recuperación
+    //1.- Metodo de recuperacion de la inversion
+    public void recuperacionInversion (){
+        double FE = 0;
+        double resto;
+        int anio = 0;
+        double mes;
+        double dia;
+        int contador;
+        int inversion = 100000+500000+1000000+200000;
+        for(contador = 0; contador<10; contador++){
+            FE = obtenerUtilidad(2017+contador)+FE;
+            //System.out.println("Año"+ (2017+contador)+"\n"+FE);
+            if(FE>inversion){//Si ya pasamos la inversion inicial
+                FE = FE - obtenerUtilidad(2017+contador);   //Restamos para tener el año y el FE donde aun no pasa la inversion
+                anio = contador;
+                contador = 11;  //Sale del for
+        }   
+    }
+        resto = inversion - FE;
+        //System.out.println("resto  "+FE);
+        mes = (resto/obtenerUtilidad(2017+anio+1))*12;
+        dia = (mes-(int)mes)*30;
+        System.out.println("Año "+anio+" mes "+(int)mes+" dia "+(int)dia);//Linea solo para probar de que si salio :)
+    }
+    //2.- Metodo de recuperacion de la inversion descontado
+    
+    //3.- Metodo anual promedio (RAP)
+    
+    //4.- Indice de rentabilidad (IR)
+    
+    //5.- VPN
+    
+    //6.- TIR
+    
 }
