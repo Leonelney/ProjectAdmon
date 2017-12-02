@@ -211,5 +211,35 @@ public class Evaluaciones {
     }
     
     //6.- TIR
+    public void TIR (){
+        double VP1 = 0;  //Valor presente
+        double VP2 = 0;  //Valor presente con la k modificada
+        double TIR;
+        double resta1;  //VPN
+        double resta2;  //inversion-VP
+        double cociente;
+        double k1 = 0.45;
+        double k2 = 0.61;
+        int contador;
+        int inversion = 100000+500000+1000000+200000;
+        for(contador = 0; contador<10; contador++){
+            VP1 = ((obtenerUtilidad(2017+contador)+obtenerDepreciacion(2017 + contador))/Math.pow((1+k1), contador+1))+VP1; //Obtiene la suma de los VP cada año 
+            //System.out.println("divisor  "+Math.pow((1+k), contador+1));
+        }
+        for(contador = 0; contador<10; contador++){
+            VP2 = ((obtenerUtilidad(2017+contador)+obtenerDepreciacion(2017 + contador))/Math.pow((1+k2), contador+1))+VP2; //Obtiene la suma de los VP cada año 
+            //System.out.println("divisor  "+Math.pow((1+k), contador+1));
+        }
+        resta1 = VP1-inversion;    //Obtiene el Valor presente neto.
+        resta2= VP1-VP2;    //Obtiene la diferencia del original con el modificado
+        cociente=resta1/resta2; //Los divide
+        TIR=cociente*16;    //Multiplica por la diferencia de las k's
+        /*System.out.println("VP1  "+VP1);
+        System.out.println("VP2  "+VP2);
+        System.out.println("resta1  "+resta1);
+        System.out.println("resta2  "+resta2);
+        System.out.println("cociente  "+cociente);
+        System.out.println("TIR  "+TIR);*/
+    }
     
 }
