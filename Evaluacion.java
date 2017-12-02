@@ -114,7 +114,6 @@ public class Evaluaciones {
     }
     
     //Metodos de proyecto
-    //Metodos de recuperación
     //1.- Metodo de recuperacion de la inversion
     public void recuperacionInversion (){
         double FE = 0;
@@ -141,11 +140,51 @@ public class Evaluaciones {
     }
     //2.- Metodo de recuperacion de la inversion descontado
     
+    
     //3.- Metodo anual promedio (RAP)
+    public void RAP (){//(Suma de los ingresos entre los años del proyecto) entre la inversion
+        double FE = 0;
+        double dividendo;
+        double RAP;
+        int contador;
+        int inversion = 100000+500000+1000000+200000;
+        for(contador = 0; contador<10; contador++){
+            FE = obtenerUtilidad(2017+contador)+FE;//Obtiene la suma de los Flujos de ejectivo cada año (utilidad del ejercicio)  
+        }
+        dividendo = FE/10;  //Suma de los flujos entre los años totales
+        RAP = (dividendo/inversion)*100;    //Obtiene el porcentaje del rendimiento, si menor a k el proyecto no es valido.
+        System.out.println("RAP  "+RAP);
+    }
     
     //4.- Indice de rentabilidad (IR)
+    public void IR (){//Suma de valores presentes entre la inversion
+        double VP = 0;  //Valor presente
+        double IR;
+        double k = 0.45;
+        int contador;
+        int inversion = 100000+500000+1000000+200000;
+        for(contador = 0; contador<10; contador++){
+            VP = (obtenerUtilidad(2017+contador)/Math.pow((1+k), contador+1))+VP; //Obtiene la suma de los VP cada año 
+            //System.out.println("divisor  "+Math.pow((1+k), contador+1));
+        }
+        IR = VP/inversion;    //Obtiene el indice de rentabilidad, si menor a 1 el proyecto pierde.
+        System.out.println("IR  "+IR);
+    }
     
     //5.- VPN
+    public void VPN (){//Suma de valores presentes menos la inversion
+        double VP = 0;  //Valor presente
+        double VPN;
+        double k = 0.45;
+        int contador;
+        int inversion = 100000+500000+1000000+200000;
+        for(contador = 0; contador<10; contador++){
+            VP = (obtenerUtilidad(2017+contador)/Math.pow((1+k), contador+1))+VP; //Obtiene la suma de los VP cada año 
+            //System.out.println("divisor  "+Math.pow((1+k), contador+1));
+        }
+        VPN = VP-inversion;    //Obtiene el Valor presente neto.
+        System.out.println("VPN  "+VPN);
+    }
     
     //6.- TIR
     
