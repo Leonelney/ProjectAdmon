@@ -124,20 +124,21 @@ public class Evaluaciones {
         int contador;
         int inversion = 100000+500000+1000000+200000;
         for(contador = 0; contador<10; contador++){
-            FE = obtenerUtilidad(2017+contador)+FE;
-            //System.out.println("Año"+ (2017+contador)+"\n"+FE);
+            FE = (obtenerUtilidad(2017+contador)+obtenerDepreciacion(2017 + contador))+FE;
+            System.out.println("Año"+ (2017+contador)+"\n"+FE);
             if(FE>inversion){//Si ya pasamos la inversion inicial
-                FE = FE - obtenerUtilidad(2017+contador);   //Restamos para tener el año y el FE donde aun no pasa la inversion
+                FE = FE - (obtenerUtilidad(2017+contador)+obtenerDepreciacion(2017 + contador));   //Restamos para tener el año y el FE donde aun no pasa la inversion
                 anio = contador;
                 contador = 11;  //Sale del for
         }   
     }
         resto = inversion - FE;
         //System.out.println("resto  "+FE);
-        mes = (resto/obtenerUtilidad(2017+anio+1))*12;
+        mes = (resto/(obtenerUtilidad(2017+anio+1)+obtenerDepreciacion(2017 + anio + 1)))*12;
         dia = (mes-(int)mes)*30;
-        System.out.println("Año "+anio+" mes "+(int)mes+" dia "+(int)dia);//Linea solo para probar de que si salio :)
+        System.out.println("Recuperacion de la inversion en:\nAño "+anio+" mes "+(int)mes+" dia "+(int)dia);
     }
+    
     //2.- Metodo de recuperacion de la inversion descontado
     public void recInvDescontado (){
         double VP = 0;
@@ -149,22 +150,19 @@ public class Evaluaciones {
         int contador;
         int inversion = 100000+500000+1000000+200000;
         for(contador = 0; contador<10; contador++){
-            VP = (obtenerUtilidad(2017+contador)/Math.pow((1+k), contador+1))+VP;
+            VP = ((obtenerUtilidad(2017+contador)+obtenerDepreciacion(2017 + contador))/Math.pow((1+k), contador+1))+VP;
             //System.out.println("Año"+ (2017+contador)+"\n"+VP);
             if(VP>inversion){//Si ya pasamos la inversion inicial
-                VP = VP - (obtenerUtilidad(2017+contador)/Math.pow((1+k), contador+1));   //Restamos para tener el año y el FE donde aun no pasa la inversion
+                VP = VP - ((obtenerUtilidad(2017+contador)+obtenerDepreciacion(2017 + contador))/Math.pow((1+k), contador+1));   //Restamos para tener el año y el FE donde aun no pasa la inversion
                 anio = contador;
                 contador = 11;  //Sale del for
         }   
     }
         resto = inversion - VP;
-        //System.out.println("resto  "+FE);
-        mes = (resto/(obtenerUtilidad(2017+contador)/Math.pow((1+k), anio+1)))*12;
+        //System.out.println("resto  "+VP);
+        mes = (resto/((obtenerUtilidad(2017+anio+1)+obtenerDepreciacion(2017 + anio+1))/Math.pow((1+k), anio+1)))*12;
         dia = (mes-(int)mes)*30;
-        if (anio != 0)
-            System.out.println("Recuperacion de la inversion descontada en:\nAño "+anio+" mes "+(int)mes+" dia "+(int)dia);
-        else
-            System.out.println("Recuperacion de la inversion descontada No puede recuperar la inversion invertida en el proyecto");
+        System.out.println("Recuperacion de la inversion descontada en:\nAño "+anio+" mes "+(int)mes+" dia "+(int)dia);
     }
     
     //3.- Metodo anual promedio (RAP)
@@ -175,7 +173,7 @@ public class Evaluaciones {
         int contador;
         int inversion = 100000+500000+1000000+200000;
         for(contador = 0; contador<10; contador++){
-            FE = obtenerUtilidad(2017+contador)+FE;//Obtiene la suma de los Flujos de ejectivo cada año (utilidad del ejercicio)  
+            FE = (obtenerUtilidad(2017+contador)+obtenerDepreciacion(2017 + contador))+FE;//Obtiene la suma de los Flujos de ejectivo cada año (utilidad del ejercicio)  
         }
         dividendo = FE/10;  //Suma de los flujos entre los años totales
         RAP = (dividendo/inversion)*100;    //Obtiene el porcentaje del rendimiento, si menor a k el proyecto no es valido.
@@ -190,7 +188,7 @@ public class Evaluaciones {
         int contador;
         int inversion = 100000+500000+1000000+200000;
         for(contador = 0; contador<10; contador++){
-            VP = (obtenerUtilidad(2017+contador)/Math.pow((1+k), contador+1))+VP; //Obtiene la suma de los VP cada año 
+            VP = ((obtenerUtilidad(2017+contador)+obtenerDepreciacion(2017 + contador))/Math.pow((1+k), contador+1))+VP; //Obtiene la suma de los VP cada año 
             //System.out.println("divisor  "+Math.pow((1+k), contador+1));
         }
         IR = VP/inversion;    //Obtiene el indice de rentabilidad, si menor a 1 el proyecto pierde.
@@ -205,7 +203,7 @@ public class Evaluaciones {
         int contador;
         int inversion = 100000+500000+1000000+200000;
         for(contador = 0; contador<10; contador++){
-            VP = (obtenerUtilidad(2017+contador)/Math.pow((1+k), contador+1))+VP; //Obtiene la suma de los VP cada año 
+            VP = ((obtenerUtilidad(2017+contador)+obtenerDepreciacion(2017 + contador))/Math.pow((1+k), contador+1))+VP; //Obtiene la suma de los VP cada año 
             //System.out.println("divisor  "+Math.pow((1+k), contador+1));
         }
         VPN = VP-inversion;    //Obtiene el Valor presente neto.
