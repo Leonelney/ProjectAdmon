@@ -139,7 +139,33 @@ public class Evaluaciones {
         System.out.println("Año "+anio+" mes "+(int)mes+" dia "+(int)dia);//Linea solo para probar de que si salio :)
     }
     //2.- Metodo de recuperacion de la inversion descontado
-    
+    public void recInvDescontado (){
+        double VP = 0;
+        double resto;
+        int anio = 0;
+        double k = 0.45;
+        double mes;
+        double dia;
+        int contador;
+        int inversion = 100000+500000+1000000+200000;
+        for(contador = 0; contador<10; contador++){
+            VP = (obtenerUtilidad(2017+contador)/Math.pow((1+k), contador+1))+VP;
+            //System.out.println("Año"+ (2017+contador)+"\n"+VP);
+            if(VP>inversion){//Si ya pasamos la inversion inicial
+                VP = VP - (obtenerUtilidad(2017+contador)/Math.pow((1+k), contador+1));   //Restamos para tener el año y el FE donde aun no pasa la inversion
+                anio = contador;
+                contador = 11;  //Sale del for
+        }   
+    }
+        resto = inversion - VP;
+        //System.out.println("resto  "+FE);
+        mes = (resto/(obtenerUtilidad(2017+contador)/Math.pow((1+k), anio+1)))*12;
+        dia = (mes-(int)mes)*30;
+        if (anio != 0)
+            System.out.println("Recuperacion de la inversion descontada en:\nAño "+anio+" mes "+(int)mes+" dia "+(int)dia);
+        else
+            System.out.println("Recuperacion de la inversion descontada No puede recuperar la inversion invertida en el proyecto");
+    }
     
     //3.- Metodo anual promedio (RAP)
     public void RAP (){//(Suma de los ingresos entre los años del proyecto) entre la inversion
