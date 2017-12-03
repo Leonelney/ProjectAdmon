@@ -242,4 +242,21 @@ public class Evaluaciones {
         System.out.println("TIR  "+TIR);*/
     }
     
+    public void puntoEquilibrio(int año){
+        double cvariable = 300*Math.pow(1 + 0.08 , año-2017);
+        double cfijo;
+        double ctotal;
+        double puntoEquilibrio;
+        double RazonContribucion;   //Necesario para punto de equilibrio (1-(Costo variable/precio por unidad))
+        double precio = 800*Math.pow(1 + 0.05 , año-2017);   //Dice que el precio aumentara 5% cada año y el precio inicial es 800
+        ctotal = obtenerCostosProd(año);
+        cfijo = ctotal - (ctotal - ((150000) * Math.pow( 1 + 0.08 , año-2017 ))); //Obtenemos el costo del mantenimiento de ese año ya que es el unico fijo
+        RazonContribucion = 1 - (cvariable/precio);
+        puntoEquilibrio = cfijo/RazonContribucion;
+        /*System.out.println("precio= "+precio);
+        System.out.println("variable= "+cvariable);
+        System.out.println("fijo= "+cfijo);
+        System.out.println("PE= "+puntoEquilibrio);*/
+    }
+    
 }
