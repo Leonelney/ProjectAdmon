@@ -20,9 +20,9 @@ public class Evaluaciones {
     double impuestos;           //impuestos
     double ventasNetas;         //Ventas despues de iva
 
-    public int obtenerUnidadesVen(int año){
+    public int obtenerUnidadesVen(int año,double porcentajeReduccion){
     //calcula las unidades que se venden dependiendo del año
-        uniVendidasA = uniVendidas * (int) Math.pow(1 + .05, año - 2017);
+        uniVendidasA = uniVendidas * porcentajeReduccion * (int) Math.pow(1 + .05, año - 2017);
         return uniVendidasA;
     }
     public double obtenerVentasNetas(int año) {
