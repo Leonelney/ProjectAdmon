@@ -115,7 +115,7 @@ public class Evaluaciones {
     
     //Metodos de proyecto
     //1.- Metodo de recuperacion de la inversion
-    public void recuperacionInversion (){
+    public String recuperacionInversion (){
         double FE = 0;
         double resto;
         int anio = 0;
@@ -130,17 +130,17 @@ public class Evaluaciones {
                 FE = FE - (obtenerUtilidad(2017+contador)+obtenerDepreciacion(2017 + contador));   //Restamos para tener el año y el FE donde aun no pasa la inversion
                 anio = contador;
                 contador = 11;  //Sale del for
-        }   
-    }
+            }
+        }
         resto = inversion - FE;
         //System.out.println("resto  "+FE);
         mes = (resto/(obtenerUtilidad(2017+anio+1)+obtenerDepreciacion(2017 + anio + 1)))*12;
         dia = (mes-(int)mes)*30;
-        System.out.println("Recuperacion de la inversion en:\nAño "+anio+" mes "+(int)mes+" dia "+(int)dia);
+        return "Recuperacion de la inversion en:\nAño "+anio+" mes "+(int)mes+" dia "+(int)dia;
     }
     
     //2.- Metodo de recuperacion de la inversion descontado
-    public void recInvDescontado (){
+    public String recInvDescontado (){
         double VP = 0;
         double resto;
         int anio = 0;
@@ -156,17 +156,18 @@ public class Evaluaciones {
                 VP = VP - ((obtenerUtilidad(2017+contador)+obtenerDepreciacion(2017 + contador))/Math.pow((1+k), contador+1));   //Restamos para tener el año y el FE donde aun no pasa la inversion
                 anio = contador;
                 contador = 11;  //Sale del for
-        }   
+        }
+        return "Recuperacion de la inversion en:\nAño "+anio+" mes "+(int)mes+" dia "+(int)dia;
     }
         resto = inversion - VP;
         //System.out.println("resto  "+VP);
         mes = (resto/((obtenerUtilidad(2017+anio+1)+obtenerDepreciacion(2017 + anio+1))/Math.pow((1+k), anio+1)))*12;
         dia = (mes-(int)mes)*30;
-        System.out.println("Recuperacion de la inversion descontada en:\nAño "+anio+" mes "+(int)mes+" dia "+(int)dia);
+        return "Recuperacion de la inversion descontada en:\nAño "+anio+" mes "+(int)mes+" dia "+(int)dia;
     }
     
     //3.- Metodo anual promedio (RAP)
-    public void RAP (){//(Suma de los ingresos entre los años del proyecto) entre la inversion
+    public String RAP (){//(Suma de los ingresos entre los años del proyecto) entre la inversion
         double FE = 0;
         double dividendo;
         double RAP;
