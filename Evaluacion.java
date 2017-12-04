@@ -1,7 +1,7 @@
 package Sources;
 
 //clase para realizar la operaciones de un año en especifico.
-public class Evaluaciones {
+public class Evaluacion {
     private int uniVendidas = 20000;      //unidades estimadas a vender(iniciales)
     int uniVendidasA;           // unidades vendidas con aumento por año
     double porRed;              //
@@ -19,15 +19,16 @@ public class Evaluaciones {
     double utilidadOper;        //utilidad de operacion
     double impuestos;           //impuestos
     double ventasNetas;         //Ventas despues de iva
+    
 
-    public int obtenerUnidadesVen(int año,double porcentajeReduccion){
+    public int obtenerUnidadesVen(int año,double porRed){
     //calcula las unidades que se venden dependiendo del año
-        uniVendidasA = uniVendidas * porcentajeReduccion * (int) Math.pow(1 + .05, año - 2017);
+        uniVendidasA = (int) (uniVendidas * (1 - porRed) * (int) Math.pow(1 + .05, año - 2017));
         return uniVendidasA;
     }
     public double obtenerVentasNetas(int año) {
         //calcula las ventas previstas
-        uniVendidas=obtenerUnidadesVen(año);//ajustando las unidades vendidas respectivas al año
+        uniVendidas=obtenerUnidadesVen(año, porRed);//ajustando las unidades vendidas respectivas al año
         ventasPre = (uniVendidas * precio) * Math.pow( 1 + 0.05 , año-2017 );
         ventasNetas = ventasPre - (ventasPre / (1 + iva)) * iva;
         return ventasNetas;
@@ -35,14 +36,14 @@ public class Evaluaciones {
 
     public double obtenerCostosProd(int año) {
         //calcula los costos de produccion
-        uniVendidas = obtenerUnidadesVen(año);//ajustando las unidades vendidas respectivas al año
+        uniVendidas = obtenerUnidadesVen(año, porRed);//ajustando las unidades vendidas respectivas al año
         costosProd = ((((120 + 80 + 50 + 50) * uniVendidas) + 150000) * Math.pow( 1 + 0.08 , año-2017 ));
         return costosProd;
     }
     
     public double obtenerSubcontra(int año){
-        if(obtenerUnidadesVen(año)>25000){
-            subcontatacion=(obtenerUnidadesVen(año)-25000)*400;
+        if(obtenerUnidadesVen(año, porRed)>25000){
+            subcontatacion=(obtenerUnidadesVen(año, porRed)-25000)*400;
         }
         return subcontatacion;
         
@@ -66,7 +67,7 @@ public class Evaluaciones {
     }
 
     public double obtenerGastosAdmon(int año) {
-        uniVendidas=obtenerUnidadesVen(año);//ajustando las unidades vendidas respectivas al año
+        uniVendidas=obtenerUnidadesVen(año, porRed);//ajustando las unidades vendidas respectivas al año
         //calculo de los gastos de administracion
         gastosAdmon = (100 * uniVendidas) * Math.pow( 1 + 0.05 , año-2017 );
         return gastosAdmon;
@@ -74,7 +75,7 @@ public class Evaluaciones {
 
     public double obtenerGastosVentas(int año) {
         //calculo de los gastos de ventas
-        uniVendidas=obtenerUnidadesVen(año);//ajustando las unidades vendidas respectivas al año
+        uniVendidas=obtenerUnidadesVen(año, porRed);//ajustando las unidades vendidas respectivas al año
         gastosVentas = (200 * uniVendidas) * Math.pow( 1 + 0.05 , año-2017 );
         return gastosVentas;
     }
@@ -157,7 +158,6 @@ public class Evaluaciones {
                 anio = contador;
                 contador = 11;  //Sale del for
         }
-        return "Recuperacion de la inversion en:\nAño "+anio+" mes "+(int)mes+" dia "+(int)dia;
     }
         resto = inversion - VP;
         //System.out.println("resto  "+VP);
@@ -171,6 +171,9 @@ public class Evaluaciones {
         double FE = 0;
         double dividendo;
         double RAP;
+        double k = 0.45;
+        boolean flag = false;
+        String respuesta = "El proyecto será rechazado";
         int contador;
         int inversion = 100000+500000+1000000+200000;
         for(contador = 0; contador<10; contador++){
@@ -178,41 +181,61 @@ public class Evaluaciones {
         }
         dividendo = FE/10;  //Suma de los flujos entre los años totales
         RAP = (dividendo/inversion)*100;    //Obtiene el porcentaje del rendimiento, si menor a k el proyecto no es valido.
-        System.out.println("RAP  "+RAP);
+        if(RAP >= k)
+            flag = true;
+        if(flag)
+            respuesta = "El proyecto será aprobado";
+        return "RAP  "+ RAP + "\n" + respuesta;
     }
     
     //4.- Indice de rentabilidad (IR)
-    public void IR (){//Suma de valores presentes entre la inversion
+    public String IR (){//Suma de valores presentes entre la inversion
         double VP = 0;  //Valor presente
         double IR;
         double k = 0.45;
         int contador;
+        boolean flag = false;
+        String respuesta = "El proyecto será rechazado";
         int inversion = 100000+500000+1000000+200000;
         for(contador = 0; contador<10; contador++){
             VP = ((obtenerUtilidad(2017+contador)+obtenerDepreciacion(2017 + contador))/Math.pow((1+k), contador+1))+VP; //Obtiene la suma de los VP cada año 
             //System.out.println("divisor  "+Math.pow((1+k), contador+1));
         }
         IR = VP/inversion;    //Obtiene el indice de rentabilidad, si menor a 1 el proyecto pierde.
-        System.out.println("IR  "+IR);
+        if(IR > 1)
+            flag = true;
+        else if(IR == 1)
+            respuesta = "No hay ganancia ni pérdida en el proyecto";
+        if(flag)
+            respuesta = "El proyecto será aprobado";
+        return "IR  "+ IR + "\n" + respuesta;
     }
     
     //5.- VPN
-    public void VPN (){//Suma de valores presentes menos la inversion
+    public String VPN (){//Suma de valores presentes menos la inversion
         double VP = 0;  //Valor presente
         double VPN;
         double k = 0.45;
         int contador;
+        boolean flag = false;
+        String respuesta = "El proyecto será rechazado";
         int inversion = 100000+500000+1000000+200000;
         for(contador = 0; contador<10; contador++){
             VP = ((obtenerUtilidad(2017+contador)+obtenerDepreciacion(2017 + contador))/Math.pow((1+k), contador+1))+VP; //Obtiene la suma de los VP cada año 
             //System.out.println("divisor  "+Math.pow((1+k), contador+1));
         }
         VPN = VP-inversion;    //Obtiene el Valor presente neto.
-        System.out.println("VPN  "+VPN);
+        if(VPN > 0)
+            flag = true;
+        else if(VPN == 0)
+            respuesta = "No hay ganancia ni pérdida en el proyecto";
+        if(flag)
+            respuesta = "El proyecto será aprobado";
+        return "VPN  "+ VPN + "\n" + respuesta;
     }
     
     //6.- TIR
-    public void TIR (){
+    public String TIR (){
         double VP1 = 0;  //Valor presente
         double VP2 = 0;  //Valor presente con la k modificada
         double TIR;
@@ -222,6 +245,8 @@ public class Evaluaciones {
         double k1 = 0.45;
         double k2 = 0.61;
         int contador;
+        boolean flag = false;
+        String respuesta = "El proyecto será rechazado";
         int inversion = 100000+500000+1000000+200000;
         for(contador = 0; contador<10; contador++){
             VP1 = ((obtenerUtilidad(2017+contador)+obtenerDepreciacion(2017 + contador))/Math.pow((1+k1), contador+1))+VP1; //Obtiene la suma de los VP cada año 
@@ -234,7 +259,12 @@ public class Evaluaciones {
         resta1 = VP1-inversion;    //Obtiene el Valor presente neto.
         resta2= VP1-VP2;    //Obtiene la diferencia del original con el modificado
         cociente=resta1/resta2; //Los divide
-        TIR=cociente*16;    //Multiplica por la diferencia de las k's
+        TIR=cociente*16;    
+        if(TIR >= k1)
+            flag = true;
+        if(flag)
+            respuesta = "El proyecto será aprobado";
+        return "TIR  "+ TIR + "\n" + respuesta;//Multiplica por la diferencia de las k's
         /*System.out.println("VP1  "+VP1);
         System.out.println("VP2  "+VP2);
         System.out.println("resta1  "+resta1);
@@ -286,3 +316,4 @@ public class Evaluaciones {
     }
     
 }
+
